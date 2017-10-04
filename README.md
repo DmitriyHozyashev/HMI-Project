@@ -1,2 +1,2 @@
 # HMI-Project by
-Artem Nagaev and 
+Artem Nagaev and Dmitriy Hozyashev
