@@ -1,1 +1,2 @@
-# HMI-Project
+# HMI-Project by
+Artem Nagaev and 
