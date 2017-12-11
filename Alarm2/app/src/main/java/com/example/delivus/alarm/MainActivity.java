@@ -50,24 +50,19 @@ public class MainActivity extends AppCompatActivity {
         //initialize buttons
         FloatingActionButton start_alarm = (FloatingActionButton) findViewById(R.id.start_alarm);
         //create an onClick listener to start the alarm
-        start_alarm.setOnLongClickListener(new View.OnLongClickListener() {
+        start_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-
-                //method that changes the status alarm
-                set_alarm_text("Alarm on! " + calendar.toString());
-                return false;
+            public void onClick(View view) {
+                set_alarm_text("Alarm on! ");
             }
         });
 
         FloatingActionButton stop_alarm = (FloatingActionButton) findViewById(R.id.stop_alarm);
         //create an onClick listener to stop the alarm or unset the alarm
-        start_alarm.setOnLongClickListener(new View.OnLongClickListener() {
+        stop_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                //method that changes the status alarm
+            public void onClick(View view) {
                 set_alarm_text("Alarm off!");
-                return false;
             }
         });
     }
