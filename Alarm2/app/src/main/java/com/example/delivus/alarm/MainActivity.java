@@ -1,7 +1,10 @@
 package com.example.delivus.alarm;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.icu.text.StringPrepParseException;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     TimePicker alarm_timepicker;
     TextView alarm_status;
     Context context;
-
+    PendingIntent pendingIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,19 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
         //initialize timepicker
         alarm_timepicker = (TimePicker) findViewById(R.id.alarm_timepicker);
-        alarm_timepicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calendar.set(Calendar.HOUR_OF_DAY,alarm_timepicker.getHour());
-                calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
 
-
-            }
-        });
         //initialize alarm_status
         alarm_status = (TextView) findViewById(R.id.alarm_status);
 
 
+        //create an intent to the Alarm Receiver class
+        final Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
 
         //initialize buttons
         FloatingActionButton start_alarm = (FloatingActionButton) findViewById(R.id.start_alarm);
@@ -53,7 +50,23 @@ public class MainActivity extends AppCompatActivity {
         start_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                set_alarm_text("Alarm on! ");
+                calendar.set(Calendar.HOUR_OF_DAY,alarm_timepicker.getHour());
+                calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+
+                int hour = alarm_timepicker.getHour();
+                int minute = alarm_timepicker.getMinute();
+
+                String hour_string = String.valueOf(hour);
+                String minute_string = String.valueOf(minute);
+
+                if (minute < 10)
+                    minute_string = '0' + minute_string;
+                //convert int values to string
+                set_alarm_text("Alarm set to: " + hour_string + ":" + minute_string);
+                //Create pending intent
+                pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                //SET the alarm manager
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             }
         });
 
@@ -63,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 set_alarm_text("Alarm off!");
+                alarmManager.cancel(pendingIntent);
             }
         });
     }
