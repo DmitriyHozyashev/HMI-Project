@@ -2,6 +2,7 @@ package com.example.delivus.alarm;
 
 import android.app.AlarmManager;
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //initialize buttons
-        Button start_alarm = (Button) findViewById(R.id.start_alarm);
+        FloatingActionButton start_alarm = (FloatingActionButton) findViewById(R.id.start_alarm);
         //create an onClick listener to start the alarm
         start_alarm.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button stop_alarm = (Button) findViewById(R.id.stop_alarm);
+        FloatingActionButton stop_alarm = (FloatingActionButton) findViewById(R.id.stop_alarm);
         //create an onClick listener to stop the alarm or unset the alarm
         start_alarm.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
