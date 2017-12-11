@@ -27,14 +27,24 @@ public class MainActivity extends AppCompatActivity {
         //initialize alarm manager
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+        //create an instance of calendar
+        final Calendar calendar = Calendar.getInstance();
+
         //initialize timepicker
         alarm_timepicker = (TimePicker) findViewById(R.id.alarm_timepicker);
+        alarm_timepicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calendar.set(Calendar.HOUR_OF_DAY,alarm_timepicker.getHour());
+                calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
 
+
+            }
+        });
         //initialize alarm_status
         alarm_status = (TextView) findViewById(R.id.alarm_status);
 
-        //create an instance of calendar
-        Calendar calendar = Calendar.getInstance();
+
 
         //initialize buttons
         Button start_alarm = (Button) findViewById(R.id.start_alarm);
@@ -44,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View view) {
 
                 //method that changes the status alarm
-                set_alarm_text("Alarm on!");
+                set_alarm_text("Alarm on! " + calendar.toString());
                 return false;
             }
         });
