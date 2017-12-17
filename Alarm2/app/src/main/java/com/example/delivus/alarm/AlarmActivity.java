@@ -13,7 +13,7 @@ public class AlarmActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        this.context = this;
         setContentView(R.layout.activity_main);
     }
 }

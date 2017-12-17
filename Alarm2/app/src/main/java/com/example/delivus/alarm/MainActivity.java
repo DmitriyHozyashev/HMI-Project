@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         //create an intent to the Alarm Receiver class
         final Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
 
+
         //initialize buttons
         FloatingActionButton start_alarm = (FloatingActionButton) findViewById(R.id.start_alarm);
         //create an onClick listener to start the alarm
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static boolean checkTime(String time){
-        Pattern p = Pattern.compile("(^[0-2]|^)[1-9]:([0-5][0-9]$)");
+        Pattern p = Pattern.compile("((^2[0-4])|((^[0-1]|^)[0-9])):(([0-5][0-9])|([0-9]))$");
         Matcher m = p.matcher(time);
         return m.matches();
     }
