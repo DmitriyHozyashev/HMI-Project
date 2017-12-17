@@ -8,15 +8,6 @@
     android:showDividers="middle"
     tools:context="com.example.delivus.alarm.MainActivity">
 
-    <TimePicker
-        android:id="@+id/alarm_timepicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:visibility="visible" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,6 +18,13 @@
             android:layout_height="match_parent"
             android:gravity="left|right"
             android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/Alarm_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="time" />
 
             <TextView
                 android:id="@+id/alarm_status"

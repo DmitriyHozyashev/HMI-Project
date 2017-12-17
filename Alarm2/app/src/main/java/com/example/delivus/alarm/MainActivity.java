@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -18,7 +19,8 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
     AlarmManager alarmManager;
-    TimePicker alarm_timepicker;
+    //TimePicker alarm_timepicker;
+    EditText alarm_time;
     TextView alarm_status;
     Context context;
     PendingIntent pendingIntent;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         final Calendar calendar = Calendar.getInstance();
 
         //initialize timepicker
-        alarm_timepicker = (TimePicker) findViewById(R.id.alarm_timepicker);
+        //alarm_timepicker = (TimePicker) findViewById(R.id.alarm_timepicker);
 
         //initialize alarm_status
         alarm_status = (TextView) findViewById(R.id.alarm_status);
@@ -50,14 +52,25 @@ public class MainActivity extends AppCompatActivity {
         start_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar.set(Calendar.HOUR_OF_DAY,alarm_timepicker.getHour());
-                calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+                alarm_time = (EditText) findViewById(R.id.Alarm_time);
+                int hour = Integer.valueOf(alarm_time.getText().toString().substring(0,2));
+                int minute = Integer.valueOf(alarm_time.getText().toString().substring(3,5));
 
-                int hour = alarm_timepicker.getHour();
-                int minute = alarm_timepicker.getMinute();
+                calendar.set(Calendar.HOUR_OF_DAY,hour);
+                calendar.set(Calendar.MINUTE, minute);
 
                 String hour_string = String.valueOf(hour);
                 String minute_string = String.valueOf(minute);
+
+
+                //calendar.set(Calendar.HOUR_OF_DAY,alarm_timepicker.getHour());
+                //calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+
+                //int hour = alarm_timepicker.getHour();
+                //int minute = alarm_timepicker.getMinute();
+
+                //String hour_string = String.valueOf(hour);
+                //String minute_string = String.valueOf(minute);
 
                 if (minute < 10)
                     minute_string = '0' + minute_string;
