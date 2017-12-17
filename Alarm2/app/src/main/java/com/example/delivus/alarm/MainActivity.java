@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,33 +55,39 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 alarm_time = (EditText) findViewById(R.id.Alarm_time);
-                int hour = Integer.valueOf(alarm_time.getText().toString().substring(0,2));
-                int minute = Integer.valueOf(alarm_time.getText().toString().substring(3,5));
+                if (checkTime(alarm_time.getText().toString())) {
+                    String[] test = alarm_time.getText().toString().split(":");
+                    int hour = Integer.valueOf(test[0]);
+                    int minute = Integer.valueOf(test[1]);
 
-                calendar.set(Calendar.HOUR_OF_DAY,hour);
-                calendar.set(Calendar.MINUTE, minute);
+                    calendar.set(Calendar.HOUR_OF_DAY, hour);
+                    calendar.set(Calendar.MINUTE, minute);
 
-                String hour_string = String.valueOf(hour);
-                String minute_string = String.valueOf(minute);
+                    String hour_string = String.valueOf(hour);
+                    String minute_string = String.valueOf(minute);
 
 
-                //calendar.set(Calendar.HOUR_OF_DAY,alarm_timepicker.getHour());
-                //calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+                    //calendar.set(Calendar.HOUR_OF_DAY,alarm_timepicker.getHour());
+                    //calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
 
-                //int hour = alarm_timepicker.getHour();
-                //int minute = alarm_timepicker.getMinute();
+                    //int hour = alarm_timepicker.getHour();
+                    //int minute = alarm_timepicker.getMinute();
 
-                //String hour_string = String.valueOf(hour);
-                //String minute_string = String.valueOf(minute);
+                    //String hour_string = String.valueOf(hour);
+                    //String minute_string = String.valueOf(minute);
 
-                if (minute < 10)
-                    minute_string = '0' + minute_string;
-                //convert int values to string
-                set_alarm_text("Alarm set to: " + hour_string + ":" + minute_string);
-                //Create pending intent
-                pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                //SET the alarm manager
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    if (minute < 10)
+                        minute_string = '0' + minute_string;
+                    //convert int values to string
+                    set_alarm_text("Alarm set to: " + hour_string + ":" + minute_string);
+                    //Create pending intent
+                    pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    //SET the alarm manager
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                }
+                else{
+                    alarm_status.setText("Time input error");
+                }
             }
         });
 
@@ -96,5 +104,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void set_alarm_text(String output) {
         alarm_status.setText(output);
+    }
+
+    public static boolean checkTime(String time){
+        Pattern p = Pattern.compile("(^[0-2]|^)[1-9]:([0-5][0-9]$)");
+        Matcher m = p.matcher(time);
+        return m.matches();
     }
 }
