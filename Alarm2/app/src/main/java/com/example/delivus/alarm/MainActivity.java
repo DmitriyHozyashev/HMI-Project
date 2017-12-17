@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static boolean checkTime(String time){
-        Pattern p = Pattern.compile("((^2[0-4])|((^[0-1]|^)[0-9])):(([0-5][0-9])|([0-9]))$");
+        Pattern p = Pattern.compile("((^2[0-4]):(00|0)$)|(((^[0-1]|^)[0-9]):(([0-5][0-9])|([0-9]))$)");
         Matcher m = p.matcher(time);
         return m.matches();
     }
