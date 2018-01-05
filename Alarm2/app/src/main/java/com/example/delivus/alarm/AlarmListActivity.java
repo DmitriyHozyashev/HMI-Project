@@ -26,8 +26,14 @@ public class AlarmListActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        FloatingActionButton w = (FloatingActionButton)findViewById(R.id.w);
+        w.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(AlarmListActivity.this, WeatherActivity.class);
+                startActivity(intent2);
+            }
+        });
     }
-
-
-
 }

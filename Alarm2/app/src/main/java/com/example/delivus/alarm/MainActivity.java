@@ -21,7 +21,6 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
 
     AlarmManager alarmManager;
-    //TimePicker alarm_timepicker;
     EditText alarm_time;
     TextView alarm_status;
     Context context;
