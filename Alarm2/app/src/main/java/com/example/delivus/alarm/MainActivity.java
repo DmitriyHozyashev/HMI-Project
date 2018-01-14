@@ -8,6 +8,7 @@ import android.icu.text.StringPrepParseException;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,8 +97,10 @@ public class MainActivity extends AppCompatActivity {
         stop_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                set_alarm_text("Alarm off!");
-                alarmManager.cancel(pendingIntent);
+                if (pendingIntent != null) {
+                    set_alarm_text("Alarm off!");
+                    alarmManager.cancel(pendingIntent);
+                }
             }
         });
     }
