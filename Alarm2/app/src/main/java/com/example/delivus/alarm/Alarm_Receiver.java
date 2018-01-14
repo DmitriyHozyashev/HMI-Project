@@ -21,7 +21,10 @@ public class Alarm_Receiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent){
         Log.e("We are in the reciever", "Yay");
+        String extra_string = intent.getExtras().getString("extra");
+        Log.e("What is the key?", extra_string);
         Intent service_intent = new Intent(context, RingtonePlayingService.class);
+        service_intent.putExtra("extra", extra_string);
         context.startService(service_intent);
     }
 }

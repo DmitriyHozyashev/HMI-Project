@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     AlarmManager alarmManager;
     EditText alarm_time;
     TextView alarm_status;
-    Context context;
     PendingIntent pendingIntent;
 
     @Override
@@ -67,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                         minute_string = '0' + minute_string;
                     //convert int values to string
                     set_alarm_text("Alarm set to: " + hour_string + ":" + minute_string);
+
+                    my_intent.putExtra("extra", "alarm on");
+
                     //Create pending intent
                     pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     //SET the alarm manager
@@ -87,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
                     set_alarm_text("Alarm off!");
                     alarmManager.cancel(pendingIntent);
                 }
+                my_intent.putExtra("extra", "alarm off");
+                sendBroadcast(my_intent);
             }
         });
     }

@@ -44,8 +44,8 @@ public class WeatherActivity extends AppCompatActivity
                 updated_field.setText(weather_updatedOn);
                 details_field.setText(weather_description);
                 current_temperature_field.setText(temperature);
-                humidity_field.setText("Влажность: "+humidity);
-                pressure_field.setText("Давление: "+pressure);
+                humidity_field.setText("Humidity: "+humidity);
+                pressure_field.setText("Pressure: "+pressure);
                 weather_icon.setText(Html.fromHtml(iconText));
             }
         });
