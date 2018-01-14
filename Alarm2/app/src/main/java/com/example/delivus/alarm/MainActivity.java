@@ -26,28 +26,24 @@ public class MainActivity extends AppCompatActivity {
     TextView alarm_status;
     Context context;
     PendingIntent pendingIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.context = this;
+        //this.context = this;
         //initialize alarm manager
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         //create an instance of calendar
         final Calendar calendar = Calendar.getInstance();
 
-        //initialize timepicker
-        //alarm_timepicker = (TimePicker) findViewById(R.id.alarm_timepicker);
-
         //initialize alarm_status
         alarm_status = (TextView) findViewById(R.id.alarm_status);
 
-
         //create an intent to the Alarm Receiver class
-        final Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
-
+        final Intent my_intent = new Intent(MainActivity.this, Alarm_Receiver.class);
 
         //initialize buttons
         FloatingActionButton start_alarm = (FloatingActionButton) findViewById(R.id.start_alarm);
@@ -66,16 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
                     String hour_string = String.valueOf(hour);
                     String minute_string = String.valueOf(minute);
-
-
-                    //calendar.set(Calendar.HOUR_OF_DAY,alarm_timepicker.getHour());
-                    //calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
-
-                    //int hour = alarm_timepicker.getHour();
-                    //int minute = alarm_timepicker.getMinute();
-
-                    //String hour_string = String.valueOf(hour);
-                    //String minute_string = String.valueOf(minute);
 
                     if (minute < 10)
                         minute_string = '0' + minute_string;

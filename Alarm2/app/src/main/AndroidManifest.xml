@@ -23,6 +23,8 @@
         <activity android:name=".WeatherActivity"></activity>
 
         <receiver android:name=".Alarm_Receiver"/>
+
+        <service android:name=".RingtonePlayingService" android:enabled="true"></service>
     </application>
 
 </manifest>
