@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.icu.text.StringPrepParseException;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.util.LogWriter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent1 = getIntent();
 
         //this.context = this;
         //initialize alarm manager
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
+        alarm_time = (EditText) findViewById(R.id.Alarm_time);
         //create an instance of calendar
         final Calendar calendar = Calendar.getInstance();
 
@@ -44,13 +46,16 @@ public class MainActivity extends AppCompatActivity {
         //create an intent to the Alarm Receiver class
         final Intent my_intent = new Intent(MainActivity.this, Alarm_Receiver.class);
 
+        if (intent1.getExtras() != null){
+            alarm_time.setText(intent1.getStringExtra("alarmFrom"));
+        }
+
         //initialize buttons
         FloatingActionButton start_alarm = (FloatingActionButton) findViewById(R.id.start_alarm);
         //create an onClick listener to start the alarm
         start_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alarm_time = (EditText) findViewById(R.id.Alarm_time);
                 if (checkTime(alarm_time.getText().toString())) {
                     String[] test = alarm_time.getText().toString().split(":");
                     int hour = Integer.valueOf(test[0]);
@@ -73,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
                     pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     //SET the alarm manager
                     alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    Intent intent = new Intent();
+                    intent.putExtra("alert",alarm_time.getText().toString());
+                    setResult(RESULT_OK,intent);
+                    finish();
                 }
                 else{
                     alarm_status.setText("Time input error");
@@ -89,6 +98,22 @@ public class MainActivity extends AppCompatActivity {
                     set_alarm_text("Alarm off!");
                     alarmManager.cancel(pendingIntent);
                 }
+                my_intent.putExtra("extra", "alarm off");
+                sendBroadcast(my_intent);
+            }
+        });
+        FloatingActionButton delete_alarm = (FloatingActionButton) findViewById(R.id.delete_alarm);
+        delete_alarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (pendingIntent != null) {
+                    set_alarm_text("Alarm off!");
+                    alarmManager.cancel(pendingIntent);
+                }
+                Intent intent = new Intent();
+                intent.putExtra("alert",alarm_time.getText().toString());
+                setResult(RESULT_OK,intent);
+                finish();
                 my_intent.putExtra("extra", "alarm off");
                 sendBroadcast(my_intent);
             }
