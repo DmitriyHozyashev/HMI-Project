@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     EditText alarm_time;
     TextView alarm_status;
     PendingIntent pendingIntent;
+    String oldAlert = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (intent1.getExtras() != null){
             alarm_time.setText(intent1.getStringExtra("alarmFrom"));
+            oldAlert = intent1.getStringExtra("alarmFrom");
         }
 
         //initialize buttons
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkTime(alarm_time.getText().toString())) {
+                    Intent intent = new Intent();
                     String[] test = alarm_time.getText().toString().split(":");
                     int hour = Integer.valueOf(test[0]);
                     int minute = Integer.valueOf(test[1]);
@@ -77,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
                     pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     //SET the alarm manager
                     alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                    Intent intent = new Intent();
                     intent.putExtra("alert",alarm_time.getText().toString());
+                    intent.putExtra("oldalert",oldAlert);
                     setResult(RESULT_OK,intent);
                     finish();
                 }
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Intent intent = new Intent();
                 intent.putExtra("alert",alarm_time.getText().toString());
-                setResult(RESULT_CANCELED,intent);
+                setResult(78,intent);
                 finish();
                 //my_intent.putExtra("extra", "alarm off");
                 //sendBroadcast(my_intent);

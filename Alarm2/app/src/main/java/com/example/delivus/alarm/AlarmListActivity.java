@@ -25,6 +25,7 @@ public class AlarmListActivity extends AppCompatActivity{
     static final private int ADD = 0;
     static final private int EDIT = 1;
     static final private String FILENAME = "AlarmTime.txt";
+    ArrayAdapter<String> adapter;
     ListView alarm_list;
     ArrayList<String> alarmArrayList;
     @Override
@@ -42,7 +43,7 @@ public class AlarmListActivity extends AppCompatActivity{
             }
         });
         alarmArrayList = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,alarmArrayList);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,alarmArrayList);
         alarm_list.setAdapter(adapter);
         try {
             FileInputStream fileInputStream = openFileInput(FILENAME);
@@ -84,15 +85,18 @@ public class AlarmListActivity extends AppCompatActivity{
         if (requestCode == ADD) {
             if (resultCode == RESULT_OK) {
                 alarmArrayList.add(data.getStringExtra("alert"));
+                adapter.notifyDataSetChanged();
             }else {
 
             }
         }
         if (requestCode == EDIT) {
-            if (resultCode == RESULT_CANCELED) {
+            if (resultCode == 78) {
                 alarmArrayList.remove(data.getStringExtra("alert"));
-            }else {
-
+                adapter.notifyDataSetChanged();
+            }else if (resultCode == RESULT_OK) {
+                alarmArrayList.set(alarmArrayList.indexOf(data.getStringExtra("oldalert")), data.getStringExtra("alert"));
+                adapter.notifyDataSetChanged();
             }
         }
     }
