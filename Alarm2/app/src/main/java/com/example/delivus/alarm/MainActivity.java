@@ -34,14 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Intent intent1 = getIntent();
 
-        //this.context = this;
-        //initialize alarm manager
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarm_time = (EditText) findViewById(R.id.Alarm_time);
-        //create an instance of calendar
-        final Calendar calendar = Calendar.getInstance();
-
-        //initialize alarm_status
         alarm_status = (TextView) findViewById(R.id.alarm_status);
 
         //create an intent to the Alarm Receiver class
@@ -64,8 +58,14 @@ public class MainActivity extends AppCompatActivity {
                     int hour = Integer.valueOf(test[0]);
                     int minute = Integer.valueOf(test[1]);
 
-                    calendar.set(Calendar.HOUR_OF_DAY, hour);
-                    calendar.set(Calendar.MINUTE, minute);
+                    Calendar setedtime = Calendar.getInstance();
+                    setedtime.set(Calendar.HOUR_OF_DAY, hour);
+                    setedtime.set(Calendar.MINUTE, minute);
+                    Calendar timenow = Calendar.getInstance();
+
+                    if (setedtime.getTimeInMillis() < timenow.getTimeInMillis())
+                        setedtime.add(Calendar.DAY_OF_MONTH, 1);
+
                     String hour_string = String.valueOf(hour);
                     String minute_string = String.valueOf(minute);
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     //Create pending intent
                     pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     //SET the alarm manager
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, setedtime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
                     intent.putExtra("alert",alarm_time.getText().toString());
                     intent.putExtra("oldalert",oldAlert);
                     setResult(RESULT_OK,intent);
