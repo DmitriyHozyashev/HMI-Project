@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
                     calendar.set(Calendar.HOUR_OF_DAY, hour);
                     calendar.set(Calendar.MINUTE, minute);
-
                     String hour_string = String.valueOf(hour);
                     String minute_string = String.valueOf(minute);
 
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Intent intent = new Intent();
                 intent.putExtra("alert",alarm_time.getText().toString());
-                setResult(RESULT_OK,intent);
+                setResult(RESULT_CANCELED,intent);
                 finish();
                 //my_intent.putExtra("extra", "alarm off");
                 //sendBroadcast(my_intent);

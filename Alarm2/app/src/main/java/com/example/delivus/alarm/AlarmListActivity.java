@@ -11,16 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -30,6 +24,7 @@ import java.util.ArrayList;
 public class AlarmListActivity extends AppCompatActivity{
     static final private int ADD = 0;
     static final private int EDIT = 1;
+    static final private String FILENAME = "AlarmTime.txt";
     ListView alarm_list;
     ArrayList<String> alarmArrayList;
     @Override
@@ -49,30 +44,21 @@ public class AlarmListActivity extends AppCompatActivity{
         alarmArrayList = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,alarmArrayList);
         alarm_list.setAdapter(adapter);
-        FileInputStream fileInputStream = null;
-        String s;
-        StringBuilder sb = new StringBuilder();
-        /*try{
-            fileInputStream = openFileInput("AlertTime");
-            try{
-                BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
-                while ((s = reader.readLine()) != null){
-                    sb.append(s);
-                    Log.w("1",sb.toString());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            FileInputStream fileInputStream = openFileInput(FILENAME);
+            byte [] buffer = new byte[5];
+            int available = fileInputStream.available()/5;
+            for (int i = 0; i < available;i++){
+                fileInputStream.read(buffer,0,5);
+                String s = new String(buffer);
+                alarmArrayList.add(s);
             }
+            fileInputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        if (fileInputStream != null){
-            try {
-                fileInputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
         FloatingActionButton addBtn = (FloatingActionButton) findViewById(R.id.addBtn);
         addBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -103,7 +89,7 @@ public class AlarmListActivity extends AppCompatActivity{
             }
         }
         if (requestCode == EDIT) {
-            if (resultCode == RESULT_OK) {
+            if (resultCode == RESULT_CANCELED) {
                 alarmArrayList.remove(data.getStringExtra("alert"));
             }else {
 
@@ -113,5 +99,16 @@ public class AlarmListActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        try {
+            FileOutputStream fileOutputStream = openFileOutput(FILENAME,MODE_WORLD_READABLE);
+            for (String s : alarmArrayList){
+                fileOutputStream.write(s.getBytes());
+            }
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
