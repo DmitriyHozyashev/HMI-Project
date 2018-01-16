@@ -52,7 +52,7 @@ public class AlarmListActivity extends AppCompatActivity{
         FileInputStream fileInputStream = null;
         String s;
         StringBuilder sb = new StringBuilder();
-        try{
+        /*try{
             fileInputStream = openFileInput("AlertTime");
             try{
                 BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
@@ -72,7 +72,7 @@ public class AlarmListActivity extends AppCompatActivity{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         FloatingActionButton addBtn = (FloatingActionButton) findViewById(R.id.addBtn);
         addBtn.setOnClickListener(new View.OnClickListener() {
 
