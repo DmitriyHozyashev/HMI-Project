@@ -84,7 +84,10 @@ public class AlarmListActivity extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD) {
             if (resultCode == RESULT_OK) {
-                alarmArrayList.add(data.getStringExtra("alert"));
+                if (!alarmArrayList.contains(data.getStringExtra("alert"))){
+                    alarmArrayList.add(data.getStringExtra("alert"));
+                }
+
                 adapter.notifyDataSetChanged();
             }else {
 
@@ -103,6 +106,21 @@ public class AlarmListActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        try {
+            FileOutputStream fileOutputStream = openFileOutput(FILENAME,MODE_WORLD_READABLE);
+            for (String s : alarmArrayList){
+                fileOutputStream.write(s.getBytes());
+            }
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
         try {
             FileOutputStream fileOutputStream = openFileOutput(FILENAME,MODE_WORLD_READABLE);
             for (String s : alarmArrayList){
