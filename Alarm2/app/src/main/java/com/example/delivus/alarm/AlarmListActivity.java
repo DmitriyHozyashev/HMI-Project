@@ -107,7 +107,8 @@ public class AlarmListActivity extends AppCompatActivity{
     protected void onDestroy() {
         super.onDestroy();
         try {
-            FileOutputStream fileOutputStream = openFileOutput(FILENAME,MODE_WORLD_READABLE);
+            Context context = getApplicationContext();
+            FileOutputStream fileOutputStream = context.openFileOutput(FILENAME,Context.MODE_PRIVATE);
             for (String s : alarmArrayList){
                 fileOutputStream.write(s.getBytes());
             }
@@ -122,7 +123,8 @@ public class AlarmListActivity extends AppCompatActivity{
     protected void onStop(){
         super.onStop();
         try {
-            FileOutputStream fileOutputStream = openFileOutput(FILENAME,MODE_WORLD_READABLE);
+            Context context = getApplicationContext();
+            FileOutputStream fileOutputStream = context.openFileOutput(FILENAME,Context.MODE_PRIVATE);
             for (String s : alarmArrayList){
                 fileOutputStream.write(s.getBytes());
             }
