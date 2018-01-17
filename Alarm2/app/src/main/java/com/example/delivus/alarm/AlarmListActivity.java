@@ -87,7 +87,6 @@ public class AlarmListActivity extends AppCompatActivity{
                 if (!alarmArrayList.contains(data.getStringExtra("alert"))){
                     alarmArrayList.add(data.getStringExtra("alert"));
                 }
-
                 adapter.notifyDataSetChanged();
             }else {
 
